@@ -11,9 +11,11 @@
   // Element references
   // -----------------------------
   const screens = {
+    boot: document.getElementById('screen-boot'),
     intro: document.getElementById('screen-intro'),
     question: document.getElementById('screen-question'),
     celebrate: document.getElementById('screen-celebrate'),
+    confirm: document.getElementById('screen-confirm'),
   };
 
   const bgHearts = document.getElementById('bg-hearts');
@@ -21,6 +23,7 @@
   const questionTextEl = document.getElementById('question-text');
   const btnYes = document.getElementById('btn-yes');
   const btnNo = document.getElementById('btn-no');
+  const btnProceed = document.getElementById('btn-proceed');
   const arrows = document.querySelector('.arrows');
 
   const confettiContainer = document.getElementById('confetti-container');
@@ -404,6 +407,18 @@
   }
 
   // -----------------------------
+  // Boot Screen
+  // -----------------------------
+  function setupBootScreen() {
+    if (!screens.boot) return;
+    
+    // Auto-transition from boot to intro after 3.5 seconds
+    setTimeout(() => {
+      switchScreen('intro');
+    }, 3500);
+  }
+
+  // -----------------------------
   // Navigation & Event Handlers
   // -----------------------------
   function setupIntro() {
@@ -427,6 +442,17 @@
     btnYes.addEventListener('click', handleYesClick);
   }
 
+  function setupCelebration() {
+    if (!btnProceed) return;
+
+    // Enhanced interactions for proceed button
+    enableButtonInteractions(btnProceed);
+
+    btnProceed.addEventListener('click', () => {
+      switchScreen('confirm');
+    });
+  }
+
   // -----------------------------
   // Init
   // -----------------------------
@@ -438,11 +464,13 @@
     primeAudioOnFirstInteraction();
 
     // Setup screens
+    setupBootScreen();
     setupIntro();
     setupQuestion();
+    setupCelebration();
 
-    // Ensure the intro is active initially
-    switchScreen('intro');
+    // Ensure the boot screen is active initially
+    switchScreen('boot');
   }
 
   // DOM ready
